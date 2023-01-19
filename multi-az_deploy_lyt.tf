@@ -225,6 +225,8 @@ resource "aws_instance" "az1_paloalto" {
   tags = {
     Name = "Paloalto_AZ1"
   }
+  ebs_optimized = true
+  monitoring = true
 }
 
 resource "aws_instance" "az2_paloalto" {
@@ -259,4 +261,6 @@ resource "aws_instance" "az2_paloalto" {
     Name = "Paloalto_AZ2"
   }
 
+  ebs_optimized = true
+  monitoring = true
 }
