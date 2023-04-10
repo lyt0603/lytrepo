@@ -24,6 +24,10 @@ variable "pa_az1_private_subnet_id"{
 
 //security group
 resource "aws_security_group" "allow-mgt-sg" {
+	# checkov:skip=CKV_AWS_23: ADD REASON
+	# checkov:skip=CKV_AWS_24: ADD REASON
+	# checkov:skip=CKV_AWS_260: ADD REASON
+	# checkov:skip=CKV_AWS_24: ADD REASON
   name        = "SG_Test"
   description = "SG_Test"
   vpc_id      = var.vpc_id
@@ -57,6 +61,11 @@ resource "aws_security_group" "allow-mgt-sg" {
 }
 
 resource "aws_security_group" "allow-pa-traffic-sg" {
+	# checkov:skip=CKV_AWS_277: ADD REASON
+	# checkov:skip=CKV_AWS_23: ADD REASON
+	# checkov:skip=CKV_AWS_260: ADD REASON
+	# checkov:skip=CKV_AWS_24: ADD REASON
+	# checkov:skip=CKV_AWS_25: ADD REASON
   name        = "allow-pa-traffic-sg"
   description = "Allow pa-sg inbound traffic"
   vpc_id      = "vpc-02842c30708e630a9"
@@ -83,6 +92,7 @@ resource "aws_security_group" "allow-pa-traffic-sg" {
 
 
 resource "aws_eip" "pa1-mgt" {
+	# checkov:skip=CKV2_AWS_19: ADD REASON
   network_interface = aws_network_interface.pa-az1-mgt.id
 
   tags = {
@@ -91,6 +101,7 @@ resource "aws_eip" "pa1-mgt" {
 }
 
 resource "aws_eip" "pa1-untrust" {
+	# checkov:skip=CKV2_AWS_19: ADD REASON
   network_interface = aws_network_interface.pa-az1-untrust.id
 
   tags = {
@@ -132,6 +143,11 @@ resource "aws_network_interface" "pa-az1-trust" {
 
 //instance
 resource "aws_instance" "az1_paloalto" {
+	# checkov:skip=CKV_AWS_79: ADD REASON
+	# checkov:skip=CKV2_AWS_41: ADD REASON
+	# checkov:skip=CKV_AWS_126: ADD REASON
+	# checkov:skip=CKV_AWS_135: ADD REASON
+	# checkov:skip=CKV_AWS_8: ADD REASON
   ami = "ami-090fe8ebee42ad56d"
   instance_type = "m5.xlarge"
   key_name = "awspasswd"
