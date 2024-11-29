@@ -9,6 +9,7 @@ provider "google" {
 resource "google_storage_bucket" "test_bucket" {
   name     = "test-storage-bucket"
   location = "ASIA-NORTHEAST3"
+  project  = "flash-physics-368407" 
 }
 
 #
