@@ -11,6 +11,7 @@ resource "google_storage_bucket" "test_bucket" {
   location = "ASIA-NORTHEAST3"
 }
 
+#
 # 변수 선언
 variable "GCP_AccessKey" {
   description = "Base64 encoded GCP service account key"
