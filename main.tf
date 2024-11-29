@@ -9,7 +9,6 @@ resource "google_storage_bucket" "test_bucket" {
   location                   = "ASIA"             # GCP 리전
   project                    = "flash-physics-368407" # 명시적 프로젝트 ID
   storage_class              = "STANDARD"         # 스토리지 클래스
-  bucket_policy_only         = true              # 버킷 정책만 허용 여부
   default_event_based_hold   = false              # 이벤트 기반 기본 보류
   force_destroy              = true              # 삭제 시 버킷 내용 강제 삭제 여부
   requester_pays             = false              # 요청자 지불 활성화 여부
