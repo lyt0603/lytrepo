@@ -1,7 +1,7 @@
 provider "google" {
   project = "flash-physics-368407" # GCP 프로젝트 ID
   region  = "asia-northeast3"     # 서울 리전
-  credentials = var.gcp_credentials # GCP Access Key
+  credentials = var.GCP-AccessKey # GCP Access Key
 }
 
 resource "google_storage_bucket" "test_bucket" {

@@ -4,7 +4,7 @@ variable "gcp_project_id" {
   default     = "flash-physics-368407"
 }
 
-variable "gcp_credentials" {
+variable "GCP-AccessKey" {
   description = "GCP Access Key stored in Terraform Cloud"
   type        = string
   sensitive   = true
