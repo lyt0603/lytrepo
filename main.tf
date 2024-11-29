@@ -1,26 +1,18 @@
+# Terraform 설정
 provider "google" {
-  project = "flash-physics-368407" # GCP 프로젝트 ID
-  region  = "asia-northeast3"     # 서울 리전
-  credentials = var.GCP-AccessKey # GCP Access Key
+  credentials = base64decode(var.GCP_AccessKey) # Base64로 인코딩된 값을 디코딩
+  project     = "flash-physics-368407"          # GCP 프로젝트 ID
+  region      = "asia-northeast3"               # GCP 서울 리전
 }
 
+# GCP 스토리지 버킷 생성 리소스
 resource "google_storage_bucket" "test_bucket" {
-  name                        = "test-storage-bucket-${var.gcp_project_id}"
-  location                    = "ASIA-NORTHEAST3"
-  storage_class               = "STANDARD"
-  force_destroy               = true
-  uniform_bucket_level_access = true
+  name     = "test-storage-bucket"
+  location = "ASIA-NORTHEAST3"
+}
 
-  versioning {
-    enabled = true
-  }
-
-  lifecycle_rule {
-    action {
-      type = "Delete"
-    }
-    condition {
-      age = 30 # 30일 지난 파일 삭제
-    }
-  }
+# 변수 선언
+variable "GCP_AccessKey" {
+  description = "Base64 encoded GCP service account key"
+  type        = string
 }
