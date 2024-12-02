@@ -5,14 +5,6 @@ provider "google" {
   region      = "asia-northeast3"               # GCP 서울 리전
 }
 
-# Artifact Registry 저장소 리소스 (이미 존재한다고 가정)
-resource "google_artifact_registry_repository" "docker_repo" {
-  repository_id = "lyt-test"                    # 저장소 ID 명확히 정의
-  location      = "asia-northeast3"
-  description   = "Docker repository for storing crypto-app images"
-  format        = "DOCKER"
-}
-
 # Cloud Build 트리거 생성 (GitHub 푸시 이벤트 기반)
 resource "google_cloudbuild_trigger" "github_trigger" {
   name   = "github-docker-build-trigger"
