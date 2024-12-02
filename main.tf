@@ -17,20 +17,11 @@ resource "google_cloudbuild_trigger" "github_trigger" {
     }
   }
 
-  build {
-    steps {
-      name = "gcr.io/cloud-builders/docker"
-      args = ["build", "-t", "asia-northeast3-docker.pkg.dev/flash-physics-368407/lyt-test/crypto-app:$SHORT_SHA", "."]
-    }
-
-    steps {
-      name = "gcr.io/cloud-builders/docker"
-      args = ["push", "asia-northeast3-docker.pkg.dev/flash-physics-368407/lyt-test/crypto-app:$SHORT_SHA"]
-    }
-
-    images = [
-      "asia-northeast3-docker.pkg.dev/flash-physics-368407/lyt-test/crypto-app:$SHORT_SHA"
-    ]
+  # Cloud Build YAML 파일을 사용
+  filename = "cloudbuild.yaml"                   # GitHub 리포지토리 내에 정의된 Cloud Build 파일
+  substitutions = {
+    _REPO_NAME  = "lytrepo"
+    _IMAGE_NAME = "asia-northeast3-docker.pkg.dev/flash-physics-368407/lyt-test/crypto-app"
   }
 }
 
@@ -48,6 +39,7 @@ resource "google_cloud_run_service" "docker_service" {
   autogenerate_revision_name = true
   depends_on = [google_cloudbuild_trigger.github_trigger]
 }
+
 
 # 변수 선언
 variable "GCP_AccessKey" {
