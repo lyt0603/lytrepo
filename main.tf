@@ -1,56 +1,20 @@
-# Terraform Provider 설정
 provider "google" {
-  credentials = base64decode(var.GCP_AccessKey) # Base64로 인코딩된 GCP 서비스 계정 키
+  credentials = base64decode(var.GCP_AccessKey) # Base64로 인코딩된 값을 디코딩
   project     = "flash-physics-368407"          # GCP 프로젝트 ID
   region      = "asia-northeast3"               # GCP 서울 리전
 }
 
-# Cloud Build Trigger (GitHub 연동)
-resource "google_cloudbuild_trigger" "github_trigger" {
-  name = "github-docker-build-trigger"
-
-  github {
-    owner = "lyt0603"                            # GitHub 사용자 이름
-    name  = "lytrepo"                            # GitHub 저장소 이름
-
-    push {
-      branch = "main"                            # 트리거할 브랜치 이름
-    }
-  }
-
-  # Substitutions for cloudbuild.yaml
-  substitutions = {
-    _REPO_NAME  = "lytrepo"
-    _IMAGE_NAME = "asia-northeast3-docker.pkg.dev/flash-physics-368407/lyt-test/crypto-app"
-  }
-
-  # cloudbuild.yaml 경로
-  filename = "cloudbuild.yaml"
+resource "google_storage_bucket" "test_bucket" {
+  name                       = "testbucket4235"    # 버킷 이름
+  location                   = "ASIA"             # GCP 리전
+  project                    = "flash-physics-368407" # 명시적 프로젝트 ID
+  storage_class              = "STANDARD"         # 스토리지 클래스
+  default_event_based_hold   = false              # 이벤트 기반 기본 보류
+  force_destroy              = true              # 삭제 시 버킷 내용 강제 삭제 여부
+  requester_pays             = false              # 요청자 지불 활성화 여부
 }
 
-# Cloud Run 서비스 배포
-resource "google_cloud_run_service" "docker_service" {
-  name     = "crypto-app-service"
-  location = "asia-northeast3"
-  template {
-    spec {
-      containers {
-        image = "asia-northeast3-docker.pkg.dev/flash-physics-368407/lyt-test/crypto-app:latest"
-      }
-    }
-  }
-  autogenerate_revision_name = true
-  depends_on = [google_cloudbuild_trigger.github_trigger]
-}
-
-# 변수 선언
 variable "GCP_AccessKey" {
   description = "Base64 encoded GCP service account key"
   type        = string
-}
-
-variable "project" {
-  description = "GCP 프로젝트 ID"
-  type        = string
-  default     = "flash-physics-368407"
 }
