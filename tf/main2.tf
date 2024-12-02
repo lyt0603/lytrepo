@@ -5,9 +5,9 @@ provider "google" {
   region      = "asia-northeast3"               # GCP 서울 리전
 }
 
-# Artifact Registry 저장소 리소스 (이미 존재한다고 가정)
+# Artifact Registry 생성
 resource "google_artifact_registry_repository" "docker_repo" {
-  name        = "lyt-test"
+  name        = "crypto-docker-repo"
   location    = "asia-northeast3"
   description = "Docker repository for storing crypto-app images"
   format      = "DOCKER"
@@ -33,12 +33,18 @@ resource "google_cloud_run_service" "docker_service" {
   template {
     spec {
       containers {
-        image = "asia-northeast3-docker.pkg.dev/flash-physics-368407/lyt-test/crypto-app:latest"
+        image = "asia-northeast3-docker.pkg.dev/${var.project}/crypto-docker-repo/crypto-app:latest"
       }
     }
   }
   autogenerate_revision_name = true
-  depends_on = [google_cloudbuild_trigger.github_trigger]
+}
+
+# IAM 권한 부여 (Cloud Build 서비스 계정)
+resource "google_project_iam_member" "cloudbuild_artifact_access" {
+  project = var.project
+  role    = "roles/artifactregistry.writer"
+  member  = "serviceAccount:${data.google_project.project_number}-compute@developer.gserviceaccount.com"
 }
 
 # 변수 선언
