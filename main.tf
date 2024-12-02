@@ -7,10 +7,11 @@ provider "google" {
 
 # Artifact Registry 저장소 리소스 (이미 존재한다고 가정)
 resource "google_artifact_registry_repository" "docker_repo" {
-  name        = "lyt-test"
-  location    = "asia-northeast3"
-  description = "Docker repository for storing crypto-app images"
-  format      = "DOCKER"
+  repository_id = "lyt-test"                    # 저장소 ID 명확히 정의
+  name          = "lyt-test"
+  location      = "asia-northeast3"
+  description   = "Docker repository for storing crypto-app images"
+  format        = "DOCKER"
 }
 
 # Cloud Build 트리거 생성 (GitHub 푸시 이벤트 기반)
