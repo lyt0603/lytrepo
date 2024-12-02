@@ -8,7 +8,6 @@ provider "google" {
 # Artifact Registry 저장소 리소스 (이미 존재한다고 가정)
 resource "google_artifact_registry_repository" "docker_repo" {
   repository_id = "lyt-test"                    # 저장소 ID 명확히 정의
-  name          = "lyt-test"
   location      = "asia-northeast3"
   description   = "Docker repository for storing crypto-app images"
   format        = "DOCKER"
