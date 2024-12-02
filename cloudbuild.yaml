@@ -9,3 +9,6 @@ steps:
 
 images:
   - 'asia-northeast3-docker.pkg.dev/flash-physics-368407/lyt-test/crypto-app:latest'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
