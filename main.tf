@@ -5,6 +5,7 @@ provider "google" {
   region      = "asia-northeast3"               # GCP 서울 리전
 }
 
+# Cloud Build Trigger (GitHub 연동)
 resource "google_cloudbuild_trigger" "github_trigger" {
   name = "github-docker-build-trigger"
 
@@ -17,12 +18,14 @@ resource "google_cloudbuild_trigger" "github_trigger" {
     }
   }
 
-  # Cloud Build YAML 파일을 사용
-  filename = "cloudbuild.yaml"                   # GitHub 리포지토리 내에 정의된 Cloud Build 파일
+  # Substitutions for cloudbuild.yaml
   substitutions = {
     _REPO_NAME  = "lytrepo"
     _IMAGE_NAME = "asia-northeast3-docker.pkg.dev/flash-physics-368407/lyt-test/crypto-app"
   }
+
+  # cloudbuild.yaml 경로
+  filename = "cloudbuild.yaml"
 }
 
 # Cloud Run 서비스 배포
@@ -39,7 +42,6 @@ resource "google_cloud_run_service" "docker_service" {
   autogenerate_revision_name = true
   depends_on = [google_cloudbuild_trigger.github_trigger]
 }
-
 
 # 변수 선언
 variable "GCP_AccessKey" {

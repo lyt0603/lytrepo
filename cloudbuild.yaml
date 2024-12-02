@@ -1,11 +1,11 @@
 steps:
   # Docker 이미지 빌드
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'asia-northeast3-docker.pkg.dev/flash-physics-368407/lyt-test/crypto-app:latest', '.']
+    args: ['build', '-t', '${_IMAGE_NAME}:$SHORT_SHA', '.']
 
-  # Docker 이미지 Artifact Registry로 푸시
+  # Docker 이미지 Artifact Registry에 푸시
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'asia-northeast3-docker.pkg.dev/flash-physics-368407/lyt-test/crypto-app:latest']
+    args: ['push', '${_IMAGE_NAME}:$SHORT_SHA']
 
 images:
-  - 'asia-northeast3-docker.pkg.dev/flash-physics-368407/lyt-test/crypto-app:latest'
+  - '${_IMAGE_NAME}:$SHORT_SHA'
