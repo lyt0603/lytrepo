@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "eu-west-2"
-}
-
 variable "vpc_id"{
   default = "vpc-02842c30708e630a9"
 
